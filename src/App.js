@@ -1,9 +1,10 @@
 import { Container, Title } from "@mantine/core";
+import AppContainer from "./components/navigation/AppContainer/AppContainer";
 
 export default function App() {
 	return (
-		<Container p='lg'>
+		<AppContainer>
 			<Title>Welcome to React App</Title>
-		</Container>
+		</AppContainer>
 	);
 }
