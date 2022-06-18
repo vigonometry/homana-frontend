@@ -1,9 +1,9 @@
 import { MantineThemeOverride } from "@mantine/core";
 
 const theme: MantineThemeOverride = {
-	fontFamily: 'Arimo, sans-serif',
+	fontFamily: 'Manrope, sans-serif',
 	headings: {
-		fontFamily: 'Arimo, sans-serif',
+		fontFamily: 'Manrope, sans-serif',
 	}
 }
 
