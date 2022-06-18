@@ -1,40 +1,47 @@
 {
-  "name": "scnus-frontend",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@apollo/client": "^3.6.6",
-    "@mantine/core": "^4.2.8",
-    "@mantine/hooks": "^4.2.8",
-    "graphql": "^16.5.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
-    "tabler-icons-react": "^1.48.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"name": "homana",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@apollo/client": "^3.6.8",
+		"@mantine/core": "^4.2.9",
+		"@mantine/dates": "^4.2.9",
+		"@mantine/hooks": "^4.2.9",
+		"@types/node": "^16.11.36",
+		"@types/react": "^18.0.9",
+		"@types/react-dom": "^18.0.5",
+		"graphql": "^16.5.0",
+		"moment": "^2.29.3",
+		"react": "^18.1.0",
+		"react-dom": "^18.1.0",
+		"react-router-dom": "^6.3.0",
+		"react-scripts": "5.0.1",
+		"sass": "^1.52.3",
+		"tabler-icons-react": "^1.49.0",
+		"typescript": "^4.7.2"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
 }

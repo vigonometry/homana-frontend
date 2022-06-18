@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Logo</title>
+    <defs>
+        <path d="M0,59.4053784 L0,121.512961 C0.330107514,123.276555 1.12220429,124.709423 2.37629033,125.811566 C3.63037638,126.913709 5.44363234,127.643187 7.81605822,128 L120.538136,128 C123.024043,127.629828 124.693851,127.073652 125.547562,126.33147 C126.401273,125.589289 127.218752,123.983119 128,121.512961 L128,62.7016502 C127.927215,59.6998574 127.638233,57.5909542 127.133052,56.3749406 C126.627871,55.158927 125.49674,53.8494939 123.739658,52.4466415 L69.876088,1.73301385 C67.3712396,0.577671284 65.4125436,0 64,0 C62.5874564,0 60.7583113,0.577671284 58.5125648,1.73301385 L4.2574194,52.4466415 C2.74006367,53.8752278 1.72601346,55.0069261 1.21526875,55.8417365 C0.704524047,56.6765469 0.299434463,57.8644276 0,59.4053784 Z" id="path-1"></path>
+    </defs>
+    <g id="Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="home">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Mask" fill="#FF7675" xlink:href="#path-1"></use>
+            <ellipse id="Oval" fill-opacity="0.247596154" fill="#EEEEEE" mask="url(#mask-2)" cx="84.968661" cy="51.9266862" rx="84.968661" ry="87.4604106"></ellipse>
+            <ellipse id="Oval-Copy" fill-opacity="0.247596154" fill="#EEEEEE" opacity="0.316359747" mask="url(#mask-2)" cx="96.3561254" cy="43.7243402" rx="87.7037037" ry="90.2756598"></ellipse>
+            <ellipse id="Oval-Copy-2" fill="#6C5CE7" opacity="0.49625651" mask="url(#mask-2)" cx="106.213675" cy="38.4076246" rx="84.968661" ry="87.4604106"></ellipse>
+            <ellipse id="Oval-Copy-3" fill-opacity="0.247596154" fill="#EEEEEE" opacity="0.316359747" mask="url(#mask-2)" cx="115.507123" cy="33.0909091" rx="84.968661" ry="87.4604106"></ellipse>
+            <ellipse id="Oval-Copy-4" fill-opacity="0.247596154" fill="#EEEEEE" opacity="0.101632254" mask="url(#mask-2)" cx="125.988604" cy="28.4633431" rx="84.968661" ry="87.4604106"></ellipse>
+            <ellipse id="Oval-Copy-5" fill="#0984E3" opacity="0.502441406" mask="url(#mask-2)" cx="135.663818" cy="24.5865103" rx="84.968661" ry="87.4604106"></ellipse>
+            <ellipse id="Oval-Copy-6" fill-opacity="0.247596154" fill="#EEEEEE" opacity="0.316359747" mask="url(#mask-2)" cx="147.068376" cy="18.7067449" rx="84.968661" ry="87.4604106"></ellipse>
+            <ellipse id="Oval-Copy-7" fill-opacity="0.247596154" fill="#EEEEEE" opacity="0.316359747" mask="url(#mask-2)" cx="157.626781" cy="13.1847507" rx="84.968661" ry="87.4604106"></ellipse>
+        </g>
+    </g>
+</svg>
