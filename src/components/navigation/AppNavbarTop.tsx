@@ -1,4 +1,4 @@
-import { Group, Image, MediaQuery, Navbar, Text, Title } from "@mantine/core";
+import { Group, Image, MediaQuery, Navbar, Text } from "@mantine/core";
 import logo from '../../assets/images/logo-plain.svg'
 
 function AppNavbarTop() {

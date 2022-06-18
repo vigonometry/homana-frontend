@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Header, Image, MediaQuery, Text, Title } from "@mantine/core"
+import { ActionIcon, Group, Header, Image, MediaQuery, Text } from "@mantine/core"
 import { Menu2 } from "tabler-icons-react"
 import logo from '../../assets/images/logo-plain.svg'
 interface AppHeaderProps {
