@@ -1,14 +1,12 @@
-import { Group, Image, MediaQuery, Navbar, Text } from "@mantine/core";
-import logo from '../../assets/images/logo-plain.svg'
+import { MediaQuery, Navbar } from "@mantine/core";
+import Logo from "../misc/Logo";
+
 
 function AppNavbarTop() {
 	return (
 		<MediaQuery smallerThan='sm' styles={{display: 'none'}}>
 			<Navbar.Section style={{ borderBottom: '1px solid #eee' }} px='lg' py='lg'>
-				<Group spacing='sm'>
-					<Image src={logo} height={30} width={30} fit="contain"/>
-					<Text size="xl">HOMANA</Text>
-				</Group>
+				<Logo height={30}/>
 			</Navbar.Section>
 		</MediaQuery>
 	)

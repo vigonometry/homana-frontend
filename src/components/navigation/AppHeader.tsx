@@ -1,6 +1,6 @@
-import { ActionIcon, Group, Header, Image, MediaQuery, Text } from "@mantine/core"
+import { ActionIcon, Group, Header, MediaQuery } from "@mantine/core"
 import { Menu2 } from "tabler-icons-react"
-import logo from '../../assets/images/logo-plain.svg'
+import Logo from "../misc/Logo"
 interface AppHeaderProps {
 	toggleMenu: () => void
 }
@@ -8,12 +8,9 @@ interface AppHeaderProps {
 function AppHeader(props: AppHeaderProps) {
 	return (
 		<MediaQuery largerThan="sm" styles={{display: 'none'}}>
-			<Header height={85} px='sm' py='lg'>
+			<Header height={78} px='sm' py='lg'>
 				<Group position="apart">
-					<Group spacing='sm'>
-						<Image src={logo} height={40} width={40} fit="contain"/>
-						<Text size="xl">HOMANA</Text>
-					</Group>
+					<Logo height={30}/>
 					<ActionIcon onClick={props.toggleMenu}>
 						<Menu2/>
 					</ActionIcon>
