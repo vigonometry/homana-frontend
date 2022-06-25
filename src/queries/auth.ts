@@ -4,13 +4,8 @@ export const CURRENT_USER = gql`
 	query CurrentUser {
 		currentUser {
 			_id
+			name
 			email
-			... on Agent {
-				name
-			}
-			... on Client {
-				name
-			}
 		}
 	}	
 `
