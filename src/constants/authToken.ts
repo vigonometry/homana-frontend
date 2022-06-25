@@ -1,1 +1,1 @@
-export const AUTH_TOKEN = 'homana-token'
+export const AUTH_TOKEN = 'insc-token'
