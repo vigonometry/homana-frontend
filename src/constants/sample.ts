@@ -30,7 +30,7 @@ export const SAMPLE_POLICIES: Policy[] = [
 		nextPayment: '2022-07-26T00:00:00+08:00',
 		dependants: ['John Doe', 'Jane Doe', 'Jim Doe']
 	}
-]
+].map(p => ({...p, nextPayment: new Date(p.nextPayment)}))
 
 export const SAMPLE_CLAIMS: Claim[] = [
 	{
