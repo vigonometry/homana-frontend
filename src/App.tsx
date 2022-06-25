@@ -25,7 +25,7 @@ export default function App() {
 	return (
 		<AppContainer user={user}>
 			<Routes>
-				<Route path="/" element={<DashboardPage/>}/>
+				<Route path="/" element={<DashboardPage user={user}/>}/>
 				<Route path="/claims" element={<ClaimsPage/>}/>
 				<Route path="/policies" element={<PoliciesPage/>}/>
 			</Routes>
