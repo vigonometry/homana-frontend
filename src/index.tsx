@@ -6,6 +6,7 @@ import './index.scss'
 import { BrowserRouter } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import apolloClient from './services/apolloClientProvider';
+import UserContextProvider from './services/userContextProvider';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
@@ -14,9 +15,11 @@ const root = ReactDOM.createRoot(
 root.render(
 	<BrowserRouter>
 		<ApolloProvider client={apolloClient}>
-			<MantineProvider theme={theme}>
-				<App/>
-			</MantineProvider>
+			<UserContextProvider>
+				<MantineProvider theme={theme}>
+					<App/>
+				</MantineProvider>
+			</UserContextProvider>
 		</ApolloProvider>
 	</BrowserRouter>
 );
