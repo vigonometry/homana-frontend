@@ -9,7 +9,7 @@ function Logo(props: LogoProps) {
 	return (
 		<Group spacing='sm'>
 			<Image src={logo} height={props.height} width={props.height} fit="contain"/>
-			<Text style={{fontSize: props.height * 0.8}}>HOMANA</Text>
+			<Text style={{fontSize: props.height * 0.8}}>InsuraSec</Text>
 		</Group>
 	)
 }
