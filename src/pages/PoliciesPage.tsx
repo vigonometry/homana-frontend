@@ -3,6 +3,7 @@ import { useContext } from "react";
 import PoliciesGrid from "../components/policies/PoliciesGrid";
 import { SAMPLE_POLICIES } from "../constants/sample";
 import { UserContext } from "../services/userContextProvider";
+import userComponentSelector from "../utils/userComponentSelector";
 
 interface PoliciesPageProps {}
 
@@ -15,7 +16,13 @@ function PoliciesPage(props: PoliciesPageProps) {
 				<Group position="apart">
 					<Title order={2}>Your Policies</Title>
 				</Group>
-				<PoliciesGrid policies={SAMPLE_POLICIES}/>
+				{
+					userComponentSelector(user, {
+						customer: <PoliciesGrid policies={SAMPLE_POLICIES}/>,
+						agent: <PoliciesGrid policies={SAMPLE_POLICIES}/>,
+						broker: <PoliciesGrid policies={user.policies}/>
+					})
+				}
 			</Stack>
 		</Box>
 	)

@@ -1,8 +1,9 @@
 export interface Policy {
-	// _id: string
+	_id: string | null
 	title: string
 	type: string
 	insuredAmount: number
-	nextPayment: Date // remove during db link
-	dependants: string[] // remove during db link
+	premium: number
+	nextPayment: Date | undefined // remove during db link
+	dependants: string[] | undefined // remove during db link
 }

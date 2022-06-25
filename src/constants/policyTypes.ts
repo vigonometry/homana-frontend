@@ -2,7 +2,7 @@ const POLICY_TYPES = [
 	'Life',
 	'Motor',
 	'Travel',
-	'House'
+	'Home'
 ]
 
 export default POLICY_TYPES

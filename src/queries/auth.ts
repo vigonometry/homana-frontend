@@ -6,6 +6,15 @@ export const CURRENT_USER = gql`
 			_id
 			name
 			email
+			... on Broker {
+				policies {
+					_id
+					title
+					type
+					insuredAmount
+					premium
+				}
+			}
 		}
 	}	
 `
