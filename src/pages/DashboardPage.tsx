@@ -1,25 +1,18 @@
-import { Box, Group, NumberInput, Space, Stack, Table, Text, TextInput, Title } from "@mantine/core"
-import { DatePicker } from "@mantine/dates"
+import { Box, Group, Stack, Table, Text, Title } from "@mantine/core"
+import { useContext } from "react"
 import ClaimsTable from "../components/claims/ClaimsTable"
 import PoliciesGrid from "../components/policies/PoliciesGrid"
 import { SAMPLE_CLAIMS, SAMPLE_POLICIES } from "../constants/sample"
-import { User } from "../types/user"
+import { UserContext } from "../services/userContextProvider"
 import userComponentSelector from "../utils/userComponentSelector"
 
-interface DashboardPageProps {
-	user: User
+function DashboardPage() {
+	const { user } = useContext(UserContext)
+	if (!user) return <></>
+	return userComponentSelector(user, { customer: <CustomerDashboard/>})
 }
 
-function DashboardPage(props: DashboardPageProps) {
-	return userComponentSelector(
-		props.user, 
-		<CustomerDashboard {...props}/>,
-		<></>,
-		<></>
-	)
-}
-
-function CustomerDashboard(props: DashboardPageProps) {
+function CustomerDashboard() {
 	return (
 		<Box p='xl'>
 			<Stack spacing={60}>
