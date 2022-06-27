@@ -5,6 +5,7 @@ import AuthPage from "./pages/AuthPage";
 import ClaimsPage from "./pages/ClaimsPage";
 import DashboardPage from "./pages/DashboardPage";
 import PoliciesPage from "./pages/PoliciesPage";
+import QuotationsPage from "./pages/QuotationsPage";
 import SettingsPage from "./pages/SettingsPage";
 import { UserContext } from "./services/userContextProvider";
 
@@ -21,6 +22,7 @@ export default function App() {
 				<Route path="/" element={<DashboardPage/>}/>
 				<Route path="/claims" element={<ClaimsPage/>}/>
 				<Route path="/policies" element={<PoliciesPage/>}/>
+				<Route path="/quotations" element={<QuotationsPage/>}/>
 				<Route path="/settings" element={<SettingsPage/>}/>
 			</Routes>
 		</AppContainer>
