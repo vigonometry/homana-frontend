@@ -1,4 +1,4 @@
-import { Policy } from "./policy"
+import { Policy, PolicyTaken } from "./policy"
 
 export interface User {
 	__typename: string
@@ -6,4 +6,5 @@ export interface User {
 	name: string | undefined
 	email: string
 	policies: Policy[]
+	policiesTaken: PolicyTaken[]
 }
