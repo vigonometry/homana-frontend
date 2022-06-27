@@ -24,7 +24,7 @@ const newQuotation: PolicyTaken = {
 }
 
 function QuotationsTable(props: QuotationsTableProps) {
-	const { user, setUser } = useContext(UserContext)
+	const { user } = useContext(UserContext)
 	const [current, setCurrent] = useState<PolicyTaken | null>(null)
 	const form = useForm<PolicyTaken>({ initialValues: newQuotation})
 	const close = () => {

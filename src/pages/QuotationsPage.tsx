@@ -9,7 +9,6 @@ function QuotationsPage() {
 	const { user, setUser } = useContext(UserContext)
 	const [getCurrentQuotations] = useLazyQuery(GET_CURRENT_POLICIES_TAKEN, {
 		onCompleted: ({ currentUser }) => {
-			console.log(currentUser)
 			setUser({...user, ...currentUser})
 		},
 		fetchPolicy: 'no-cache'
