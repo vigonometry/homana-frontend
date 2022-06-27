@@ -9,10 +9,10 @@ import userComponentSelector from "../utils/userComponentSelector"
 function DashboardPage() {
 	const { user } = useContext(UserContext)
 	if (!user) return <></>
-	return userComponentSelector(user, { customer: <CustomerDashboard/>})
+	return userComponentSelector(user, { client: <ClientDashboard/>})
 }
 
-function CustomerDashboard() {
+function ClientDashboard() {
 	return (
 		<Box p='xl'>
 			<Stack spacing={60}>

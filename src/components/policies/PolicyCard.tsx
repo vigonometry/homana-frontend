@@ -20,7 +20,7 @@ function PolicyCard(props: PolicyCardProps) {
 					{props.mini && <Badge>{props.policy.type}</Badge>}
 				</Group>
 				{
-					!props.mini && user.__typename === 'Customer' && (
+					!props.mini && user.__typename === 'Client' && (
 						<Stack spacing='sm'>
 							<Stack spacing={0}>
 								<Title order={5}>Next payment</Title>
