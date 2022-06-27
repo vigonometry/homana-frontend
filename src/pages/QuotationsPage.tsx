@@ -9,8 +9,10 @@ function QuotationsPage() {
 	const { user, setUser } = useContext(UserContext)
 	const [getCurrentQuotations] = useLazyQuery(GET_CURRENT_POLICIES_TAKEN, {
 		onCompleted: ({ currentUser }) => {
+			console.log(currentUser)
 			setUser({...user, ...currentUser})
-		}
+		},
+		fetchPolicy: 'no-cache'
 	})
 	useEffect(() => {
 		if (user && !user.policiesTaken) getCurrentQuotations()
@@ -20,7 +22,7 @@ function QuotationsPage() {
 		<Box p='xl'>
 			<Stack>
 				<Title order={2}>Quotations</Title>
-				<QuotationsTable quotations={user?.policiesTaken || []}/>
+				<QuotationsTable refresh={() => getCurrentQuotations()} quotations={user?.policiesTaken || []}/>
 			</Stack>
 		</Box>
 	)
