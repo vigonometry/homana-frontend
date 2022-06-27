@@ -1,14 +1,25 @@
+import { useLazyQuery } from "@apollo/client";
 import { Box, Group, Stack, Title } from "@mantine/core";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import PoliciesGrid from "../components/policies/PoliciesGrid";
-import { SAMPLE_POLICIES } from "../constants/sample";
+import PoliciesTakenGrid from "../components/policies/PoliciesTakenGrid";
+import { GET_CURRENT_POLICIES_TAKEN } from "../queries/policyTaken";
 import { UserContext } from "../services/userContextProvider";
 import userComponentSelector from "../utils/userComponentSelector";
 
 interface PoliciesPageProps {}
 
 function PoliciesPage(props: PoliciesPageProps) {
-	const { user } = useContext(UserContext)
+	const { user, setUser } = useContext(UserContext)
+	const [getCurrentPolicies] = useLazyQuery(GET_CURRENT_POLICIES_TAKEN, {
+		onCompleted: ({ currentUser }) => {
+			setUser({...user, ...currentUser})
+		},
+		fetchPolicy: 'no-cache'
+	})
+	useEffect(() => {
+		if (user && !user.policiesTaken) getCurrentPolicies()
+	}, [user, getCurrentPolicies])
 	if (!user) return <></>
 	return (
 		<Box p='xl'>
@@ -18,8 +29,8 @@ function PoliciesPage(props: PoliciesPageProps) {
 				</Group>
 				{
 					userComponentSelector(user, {
-						customer: <PoliciesGrid policies={SAMPLE_POLICIES}/>,
-						agent: <PoliciesGrid policies={SAMPLE_POLICIES}/>,
+						client: <PoliciesTakenGrid policiesTaken={user.policiesTaken || []}/>,
+						agent: <></>,
 						broker: <PoliciesGrid policies={user.policies}/>
 					})
 				}

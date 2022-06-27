@@ -26,12 +26,14 @@ export const GET_CURRENT_POLICIES_TAKEN = gql`
 					_id
 					policy {
 						title
+						type
 					}
 					client {
 						name
 					}
 					agent {
 						name
+						email
 					}
 					date
 					status

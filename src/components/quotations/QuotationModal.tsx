@@ -61,8 +61,8 @@ function QuotationModal(props: QuotationModalProps) {
 				<Space/>
 				<Group>
 					<Button onClick={() => createQuotation()}>Sign and Send</Button>
+					<Text size='xs' color='dimmed'>By clicking Sign and Send, ...</Text>
 				</Group>
-				<Text size='xs' color='dimmed'>By clicking Sign and Send, ...</Text>
 			</Stack>
 		</Modal>
 	)
