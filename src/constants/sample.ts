@@ -42,7 +42,7 @@ export const SAMPLE_POLICIES: Policy[] = [
 
 export const SAMPLE_CLAIMS: Claim[] = [
 	{
-		_id: 'ABCHLPE4',
+		_id: 'ABCHLPE41',
 		policyId: 'Policy A',
 		claimDate: '2022-05-12T08:00:00+08:00',
 		claimAmount: 250,
@@ -50,7 +50,7 @@ export const SAMPLE_CLAIMS: Claim[] = [
 		status: 'Submitted'
 	},
 	{
-		_id: 'ABCHLPE4',
+		_id: 'ABCHLPE42',
 		policyId: 'Policy A',
 		claimDate: '2022-05-12T08:00:00+08:00',
 		claimAmount: 250,
@@ -58,7 +58,7 @@ export const SAMPLE_CLAIMS: Claim[] = [
 		status: 'Completed'
 	},
 	{
-		_id: 'ABCHLPE4',
+		_id: 'ABCHLPE43',
 		policyId: 'Policy A',
 		claimDate: '2022-05-12T08:00:00+08:00',
 		claimAmount: 250,
@@ -66,7 +66,7 @@ export const SAMPLE_CLAIMS: Claim[] = [
 		status: 'Completed'
 	},
 	{
-		_id: 'ABCHLPE4',
+		_id: 'ABCHLPE44',
 		policyId: 'Policy A',
 		claimDate: '2022-05-12T08:00:00+08:00',
 		claimAmount: 250,
@@ -74,7 +74,7 @@ export const SAMPLE_CLAIMS: Claim[] = [
 		status: 'Completed'
 	},
 	{
-		_id: 'ABCHLPE4',
+		_id: 'ABCHLPE45',
 		policyId: 'Policy A',
 		claimDate: '2022-05-12T08:00:00+08:00',
 		claimAmount: 250,
@@ -82,7 +82,7 @@ export const SAMPLE_CLAIMS: Claim[] = [
 		status: 'Submitted'
 	},
 	{
-		_id: 'ABCHLPE4',
+		_id: 'ABCHLPE46',
 		policyId: 'Policy A',
 		claimDate: '2022-05-12T08:00:00+08:00',
 		claimAmount: 250,
@@ -90,7 +90,7 @@ export const SAMPLE_CLAIMS: Claim[] = [
 		status: 'Completed'
 	},
 	{
-		_id: 'ABCHLPE4',
+		_id: 'ABCHLPE47',
 		policyId: 'Policy A',
 		claimDate: '2022-05-12T08:00:00+08:00',
 		claimAmount: 250,
@@ -98,28 +98,11 @@ export const SAMPLE_CLAIMS: Claim[] = [
 		status: 'Completed'
 	},
 	{
-		_id: 'ABCHLPE4',
+		_id: 'ABCHLPE48',
 		policyId: 'Policy A',
 		claimDate: '2022-05-12T08:00:00+08:00',
 		claimAmount: 250,
 		attachments: ['Images.zip', 'Receipt.pdf'],
 		status: 'Submitted'
 	},
-	{
-		_id: 'ABCHLPE4',
-		policyId: 'Policy A',
-		claimDate: '2022-05-12T08:00:00+08:00',
-		claimAmount: 250,
-		attachments: ['Images.zip', 'Receipt.pdf'],
-		status: 'Rejected'
-	},
-	{
-		_id: 'ABCHLPE4',
-		policyId: 'Policy A',
-		claimDate: '2022-05-12T08:00:00+08:00',
-		claimAmount: 250,
-		attachments: ['Images.zip', 'Receipt.pdf'],
-		status: 'Submitted'
-	},
-
 ]
