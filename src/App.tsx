@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import AppContainer from "./components/navigation/AppContainer";
+import ApplicationsPage from "./pages/ApplicationsPage";
 import AuthPage from "./pages/AuthPage";
 import ClaimsPage from "./pages/ClaimsPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -24,6 +25,7 @@ export default function App() {
 				<Route path="/policies" element={<PoliciesPage/>}/>
 				<Route path="/quotations" element={<QuotationsPage/>}/>
 				<Route path="/settings" element={<SettingsPage/>}/>
+				<Route path="/applications" element={<ApplicationsPage/>}/>
 			</Routes>
 		</AppContainer>
 	)
