@@ -5,7 +5,6 @@ import POLICY_TYPES from "../../constants/policyTypes";
 import { UserContext } from "../../services/userContextProvider";
 import { Callbacks } from "../../types/callbacks";
 import { Policy } from "../../types/policy";
-import userComponentSelector from "../../utils/userComponentSelector";
 import PolicyCard from "./PolicyCard";
 import PolicyModal from "./PolicyModal";
 
@@ -51,7 +50,7 @@ function PoliciesGrid(props: PoliciesGridProps) {
 			<PolicyModal callbacks={callbacks} form={form} policy={selected} close={close}/>
 			<Group>
 				<TextInput placeholder="Search" size="md"/>
-				{userComponentSelector(user, { broker: <Button onClick={newPolicyClick}>New Policy</Button>})}
+				{ user.__typename === 'Broker' && <Button onClick={newPolicyClick}>New Policy</Button> }
 			</Group>
 			<SimpleGrid breakpoints={[{ minWidth: 'sm', cols: 1}, { minWidth: 'md', cols: 2}, { minWidth: 'lg', cols: 3}]}>
 				{props.policies.map(p => <PolicyCard onClick={policyClick(p)} mini={props.mini} policy={p}/>)}

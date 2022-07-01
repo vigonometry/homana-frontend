@@ -5,7 +5,6 @@ import PoliciesGrid from "../components/policies/PoliciesGrid";
 import PoliciesTakenGrid from "../components/policies/PoliciesTakenGrid";
 import { GET_CURRENT_POLICIES_TAKEN } from "../queries/policyTaken";
 import { UserContext } from "../services/userContextProvider";
-import userComponentSelector from "../utils/userComponentSelector";
 
 interface PoliciesPageProps {}
 
@@ -27,13 +26,8 @@ function PoliciesPage(props: PoliciesPageProps) {
 				<Group position="apart">
 					<Title order={2}>Your Policies</Title>
 				</Group>
-				{
-					userComponentSelector(user, {
-						client: <PoliciesTakenGrid policiesTaken={user.policiesTaken || []}/>,
-						agent: <></>,
-						broker: <PoliciesGrid policies={user.policies}/>
-					})
-				}
+				{ user.__typename === 'Client' && <PoliciesTakenGrid policiesTaken={user.policiesTaken || []}/>}
+				{ user.__typename === 'Broker' && <PoliciesGrid policies={user.policies}/> }
 			</Stack>
 		</Box>
 	)

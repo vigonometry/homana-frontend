@@ -11,12 +11,9 @@ import SettingsPage from "./pages/SettingsPage";
 import { UserContext } from "./services/userContextProvider";
 
 export default function App() {
-
 	const { user } = useContext(UserContext)
-
 	if (user === undefined) return <></>
 	if (user === null) return <AuthPage/>
-	
 	return (
 		<AppContainer>
 			<Routes>
