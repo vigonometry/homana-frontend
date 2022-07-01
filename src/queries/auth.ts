@@ -16,7 +16,7 @@ export const CURRENT_USER = gql`
 				}
 			}
 		}
-	}	
+	}
 `
 
 export const LOGIN = gql`

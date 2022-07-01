@@ -35,6 +35,7 @@ export const GET_CURRENT_POLICIES_TAKEN = gql`
 						name
 						email
 					}
+					policyId
 					date
 					status
 					insuredAmount

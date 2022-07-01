@@ -1,19 +1,20 @@
 import { Center, Space, Stack } from "@mantine/core";
-import LoginForm from "../components/auth/LoginForm";
+import LoginCard from "../components/auth/LoginCard";
 import Logo from "../components/misc/Logo";
 
-function AuthPage() {
+const AUTH_LOGO_HEIGHT = 40
+const AUTH_CARD_WIDTH = 450
+
+export default function AuthPage() {
 	return (
 		<Center style={{ height: '100vh' }}>
-			<Stack style={{ width: 450, maxWidth: '90%'}}>
+			<Stack style={{ width: AUTH_CARD_WIDTH, maxWidth: '90%'}}>
 				<Center>
-					<Logo height={40}/>
+					<Logo height={AUTH_LOGO_HEIGHT}/>
 				</Center>
 				<Space/>
-				<LoginForm/>
+				<LoginCard/>
 			</Stack>
 		</Center>
 	)
 }
-
-export default AuthPage;
