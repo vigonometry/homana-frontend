@@ -6,6 +6,7 @@
 		"@apollo/client": "^3.6.8",
 		"@mantine/core": "^4.2.9",
 		"@mantine/dates": "^4.2.9",
+		"@mantine/dropzone": "^4.2.11",
 		"@mantine/hooks": "^4.2.9",
 		"@types/node": "^16.11.36",
 		"@types/react": "^18.0.9",
