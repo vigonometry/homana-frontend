@@ -1,3 +1,4 @@
+import { Claim } from "./claim"
 import { Policy, PolicyTaken } from "./policy"
 
 export interface User {
@@ -7,4 +8,5 @@ export interface User {
 	email: string
 	policies: Policy[]
 	policiesTaken: PolicyTaken[]
+	claims?: Claim[]
 }

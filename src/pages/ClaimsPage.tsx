@@ -1,20 +1,19 @@
-import { Box, Button, Group, Stack, Text, Title } from "@mantine/core";
+import { Group, Title } from "@mantine/core";
+import { useContext } from "react";
 import ClaimsTable from "../components/claims/ClaimsTable";
-import { SAMPLE_CLAIMS } from "../constants/sample";
+import PageContainer from "../components/containers/PageContainer";
+import { UserContext } from "../services/userContextProvider";
 
-interface ClaimsPageProps {}
+// For the client, display all the claims with segmented control
+// For the agent and broker, display all claims awaiting approval
 
-function ClaimsPage(props: ClaimsPageProps) {
+function ClaimsPage() {
+	const { user } = useContext(UserContext)
 	return (
-		<Box p='xl'>
-			<Stack>
-				<Group position="apart">
-					<Title order={2}>Claims</Title>
-					<Button variant="light">New Claim</Button>
-				</Group>
-				<ClaimsTable claims={SAMPLE_CLAIMS}/>
-			</Stack>
-		</Box>
+		<PageContainer>
+			<Title order={2}>Claims</Title>
+			<ClaimsTable/>
+		</PageContainer>
 	)
 }
 

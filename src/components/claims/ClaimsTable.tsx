@@ -1,40 +1,78 @@
-import { Anchor, Badge, Group, Table, Text } from "@mantine/core";
-import { Paperclip } from "tabler-icons-react";
+import { useQuery } from "@apollo/client";
+import { Anchor, Badge, Button, Group, Table, Text, TextInput } from "@mantine/core";
+import moment from "moment";
+import { useContext, useEffect, useState } from "react";
+import { READ_CLAIMS } from "../../queries/claims";
+import { UserContext } from "../../services/userContextProvider";
+import { Callbacks } from "../../types/callbacks";
 import { Claim } from "../../types/claim";
+import ptBadgeColor from "../../utils/ptBadgeColor";
+import ClaimModal from "./ClaimModal";
+import NewClaimModal from "./NewClaimModal";
 
 interface ClaimsTableProps {
-	claims: Claim[]
 }
 
 export default function ClaimsTable(props: ClaimsTableProps) {
+	const { user, setUser } = useContext(UserContext)
+	const { data } = useQuery(READ_CLAIMS)
+	const [newIsOpened, setNewIsOpened] = useState(false)
+	const [selected, setSelected] = useState<Claim | null>(null)
+	const close = () => {
+		setNewIsOpened(false)
+		setSelected(null)
+	}
+	const newClicked = () => {
+		setNewIsOpened(true)
+	}
+	useEffect(() => {
+		if (data && data.currentUser && user) setUser({...user, ...data.currentUser})
+	}, [data])
+	if (!user || !user.claims) return <></>
+	const callbacks: Callbacks<Claim> = {
+		create: (c) => setUser({...user, claims: user.claims ? [...user.claims, c] : [c]}),
+		update: (c) => {},
+		delete: (c) => {}
+	}
 	return (
 		<>
-			<Table verticalSpacing='xs' fontSize='md'>
-				<thead>
-					<tr>
-						<th>Date</th>
-						<th>Claim ID</th>
-						<th>Status</th>
-						<th>Attachments</th>
-					</tr>
-				</thead>
-				<tbody>
-					{
-						props.claims.map(t => ({...t, date: new Date(t.claimDate)})).map(t => (
-							<tr key={t._id} className="fade-on-hover">
-								<td>{t.date.getDate()}-{t.date.getMonth()}-{t.date.getFullYear()}</td>
-								<td>{t._id}</td>
-								<td><Badge color={t.status === 'Submitted' ? 'grape' : t.status === 'Completed' ? 'green' : 'red'}>{t.status}</Badge></td>
-								<td>
-									<Group>
-										{t.attachments.map(a => <Anchor key={a}><Group spacing={4}><Paperclip size={16}/><Text>{a}</Text></Group></Anchor>)}
-									</Group>
-								</td>
-							</tr>
-						))
-					}
-				</tbody>
-			</Table>
+		<NewClaimModal callbacks={callbacks} isOpened={newIsOpened} close={close}/>
+		<ClaimModal claim={selected} close={close}/>
+		<Group>
+			<TextInput placeholder="Search"/>
+			{ user?.__typename === 'Client' && <Button onClick={newClicked}>New Claim</Button>}
+		</Group>
+		<Table verticalSpacing='sm'>
+			<thead>
+				<tr>
+					<th>Last Updated</th>
+					<th>Claim ID</th>
+					<th>Attachments</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				{
+					user.claims.map(c => (
+						<tr className="fade-on-hover" onClick={() => setSelected(c)}>
+							<td>{ moment(c.claimDate).format("DD/MM/YYYY, hh:mm A") }</td>
+							<td>{ c._id }</td>
+							<td>
+								<Group>
+								{c.attachments.map(a => (
+									<Anchor>{a}</Anchor>
+								))}
+								{c.attachments.length === 0 && <Text color='dimmed'>None</Text>}
+								</Group>
+							</td>
+							<td>
+								<Badge color={ptBadgeColor(c.status || '')}>{c.status}</Badge>
+							</td>
+						</tr>
+					))
+				}
+			</tbody>
+		</Table>
 		</>
 	)
 }
