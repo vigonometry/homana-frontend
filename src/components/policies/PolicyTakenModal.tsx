@@ -15,7 +15,6 @@ interface PolicyTakenModalProps {
 
 function PolicyTakenModal(props: PolicyTakenModalProps) {
 	const { user } = useContext(UserContext)
-	console.log(props.policyTaken)
 	const [policyNext] = useMutation(POLICY_TAKEN_NEXT_STEP, {
 		variables: { _id: props.policyTaken?._id, status: props.policyTaken?.status},
 		onCompleted: ({ policyTakenNext }) => {

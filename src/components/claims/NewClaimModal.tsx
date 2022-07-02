@@ -19,7 +19,7 @@ interface NewClaimModalProps {
 export default function NewClaimModal(props: NewClaimModalProps) {
 	const { user } = useContext(UserContext)
 	const form = useForm<Claim>({ initialValues: {
-		policyId: user && user.policiesTaken && user?.policiesTaken.length > 0 ? user?.policiesTaken[0].policyId || '' : '',
+		policyId: user && user.policiesTaken && user?.policiesTaken.length > 0 ? user?.policiesTaken[0]._id || '' : '',
 		receiptDate: new Date().toISOString(),
 		receiptAmount: 0,
 		claimAmount: 0,
@@ -35,14 +35,14 @@ export default function NewClaimModal(props: NewClaimModalProps) {
 		}
 	})
 	useEffect(() => {
-		form.setValues({...form.values, policyId: user && user.policiesTaken && user?.policiesTaken.length > 0 ? user?.policiesTaken[0].policyId || '' : '' })
+		form.setValues({...form.values, policyId: user && user.policiesTaken && user?.policiesTaken.length > 0 ? user?.policiesTaken[0]._id || '' : '' })
 	}, [user])
 	if (!user || !user.policiesTaken) return <></>
 	return (
 		<Modal opened={props.isOpened} onClose={props.close} title={'New Claim'} styles={{ title: { fontWeight: 'bold' }}}>
 			<Stack spacing='md'>
 				<Stack spacing='xs' p='xs'>
-					<Select label='Associated with' data={user.policiesTaken.map(p => ({ value: p.policyId || '', label: p.policy?.title }))} {...form.getInputProps('policyId')}/>
+					<Select label='Associated with' data={user.policiesTaken.map(p => ({ value: p._id || '', label: p.policy?.title }))} {...form.getInputProps('policyId')}/>
 				</Stack>
 				<Divider/>
 				<Stack spacing='xs' p='xs'>

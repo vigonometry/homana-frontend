@@ -1,15 +1,45 @@
-import { Anchor, Badge, Divider, Group, Modal, Stack, Text, Title } from "@mantine/core"
+import { useMutation } from "@apollo/client"
+import { Anchor, Badge, Button, Divider, Group, Modal, Stack, Text, Title } from "@mantine/core"
 import moment from "moment"
-import { Calendar, CurrencyDollarSingapore } from "tabler-icons-react"
+import { userInfo } from "os"
+import { useContext } from "react"
+import { Calendar, CurrencyDollarSingapore, Mail, Typography } from "tabler-icons-react"
+import { CLAIM_CANCEL, CLAIM_NEXT_STEP } from "../../queries/claims"
+import { UserContext } from "../../services/userContextProvider"
+import { Callbacks } from "../../types/callbacks"
 import { Claim } from "../../types/claim"
 import ptBadgeColor from "../../utils/ptBadgeColor"
 
 interface ClaimModalProps {
 	claim: Claim | null
+	callbacks: Callbacks<Claim>
 	close: () => void
 }
 
 export default function ClaimModal(props: ClaimModalProps) {
+	const { user } = useContext(UserContext)
+	const [claimNext] = useMutation(CLAIM_NEXT_STEP, {
+		variables: { _id: props.claim?._id, status: props.claim?.status},
+		onCompleted: ({ claimNext }) => {
+			if (claimNext.response && props.claim) {
+				props.callbacks.update({...props.claim, status: claimNext.response})
+				props.close()
+			} else {
+				console.log(claimNext.error)
+			}
+		}
+	})
+	const [claimCancel] = useMutation(CLAIM_CANCEL, {
+		variables: { _id: props.claim?._id, status: props.claim?.status},
+		onCompleted: ({ claimCancel }) => {
+			if (claimCancel.response && props.claim) {
+				props.callbacks.update({...props.claim, status: claimCancel.response})
+				props.close()
+			} else {
+				console.log(claimCancel.error)
+			}
+		}
+	})
 	return (
 		<Modal opened={!!props.claim} onClose={props.close} styles={{title: { fontWeight: 'bold'}, header: { marginBottom: 4}}} title='Claim Details'>
 			<Badge size="md" color={ptBadgeColor(props.claim?.status || '')}>{props.claim?.status}</Badge>
@@ -48,6 +78,27 @@ export default function ClaimModal(props: ClaimModalProps) {
 						))}
 					</Group>
 				</Stack>
+				{
+					user?.__typename !== 'Client' &&
+					<Stack spacing={4}>
+						<Title order={6}>Client Details</Title>
+						<Group>
+							<Typography size={16}/>
+							<Text size="sm">{props.claim?.client?.name}</Text>
+						</Group>
+						<Group>
+							<Mail size={16}/>
+							<Text size="sm">{props.claim?.client?.email}</Text>
+						</Group>
+					</Stack>
+				}
+				{
+					user?.__typename !== 'Client' &&
+					<Group position="apart">
+						<Button onClick={() => claimNext()}>Sign and Approve</Button>
+						<Button onClick={() => claimCancel()} color='red'>Reject</Button>
+					</Group>
+				}
 			</Stack>
 		</Modal>
 	)

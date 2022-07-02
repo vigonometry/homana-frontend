@@ -31,13 +31,13 @@ export default function ClaimsTable(props: ClaimsTableProps) {
 	if (!user || !user.claims) return <></>
 	const callbacks: Callbacks<Claim> = {
 		create: (c) => setUser({...user, claims: user.claims ? [...user.claims, c] : [c]}),
-		update: (c) => {},
+		update: (c) => setUser({ ...user, claims: user.claims ? user.claims.map(x => x._id === c._id ? c : x) : []}),
 		delete: (c) => {}
 	}
 	return (
 		<>
 		<NewClaimModal callbacks={callbacks} isOpened={newIsOpened} close={close}/>
-		<ClaimModal claim={selected} close={close}/>
+		<ClaimModal callbacks={callbacks} claim={selected} close={close}/>
 		<Group>
 			<TextInput placeholder="Search"/>
 			{ user?.__typename === 'Client' && <Button onClick={newClicked}>New Claim</Button>}
@@ -47,6 +47,7 @@ export default function ClaimsTable(props: ClaimsTableProps) {
 				<tr>
 					<th>Last Updated</th>
 					<th>Claim ID</th>
+					{ user.__typename !== 'Client' && <th>Client Name</th>}
 					<th>Attachments</th>
 					<th>Status</th>
 				</tr>
@@ -57,6 +58,7 @@ export default function ClaimsTable(props: ClaimsTableProps) {
 						<tr className="fade-on-hover" onClick={() => setSelected(c)}>
 							<td>{ moment(c.claimDate).format("DD/MM/YYYY, hh:mm A") }</td>
 							<td>{ c._id }</td>
+							{ user.__typename !== 'Client' && <td>{c.client?.name || ''}</td>}
 							<td>
 								<Group>
 								{c.attachments.map(a => (

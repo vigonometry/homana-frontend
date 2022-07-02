@@ -1,3 +1,5 @@
+import { User } from "./user"
+
 export interface Claim {
 	_id?: string
 	policyId?: string
@@ -9,4 +11,5 @@ export interface Claim {
 	claimAmount: number
 	attachments: string[]
 	status?: string
+	client?: User
 } 
