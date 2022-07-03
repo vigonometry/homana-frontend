@@ -1,8 +1,9 @@
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { Anchor, Badge, Button, Group, Table, Text, TextInput } from "@mantine/core";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { READ_CLAIMS } from "../../queries/claims";
+import { GET_CURRENT_POLICIES_TAKEN } from "../../queries/policyTaken";
 import { UserContext } from "../../services/userContextProvider";
 import { Callbacks } from "../../types/callbacks";
 import { Claim } from "../../types/claim";
@@ -18,6 +19,15 @@ export default function ClaimsTable(props: ClaimsTableProps) {
 	const { data } = useQuery(READ_CLAIMS)
 	const [newIsOpened, setNewIsOpened] = useState(false)
 	const [selected, setSelected] = useState<Claim | null>(null)
+	const [getCurrentPolicies] = useLazyQuery(GET_CURRENT_POLICIES_TAKEN, {
+		onCompleted: ({ currentUser }) => {
+			setUser({...user, ...currentUser})
+		},
+		fetchPolicy: 'no-cache'
+	})
+	useEffect(() => {
+		if (user && !user.policiesTaken) getCurrentPolicies()
+	}, [user, getCurrentPolicies])
 	const close = () => {
 		setNewIsOpened(false)
 		setSelected(null)

@@ -93,7 +93,7 @@ export default function ClaimModal(props: ClaimModalProps) {
 					</Stack>
 				}
 				{
-					user?.__typename !== 'Client' &&
+					((user?.__typename === 'Agent' && props.claim?.status === 'SUBMITTED') || (user?.__typename === 'Broker' && props.claim?.status === 'PROCESSING')) &&
 					<Group position="apart">
 						<Button onClick={() => claimNext()}>Sign and Approve</Button>
 						<Button onClick={() => claimCancel()} color='red'>Reject</Button>

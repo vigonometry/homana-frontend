@@ -42,7 +42,7 @@ export default function NewClaimModal(props: NewClaimModalProps) {
 		<Modal opened={props.isOpened} onClose={props.close} title={'New Claim'} styles={{ title: { fontWeight: 'bold' }}}>
 			<Stack spacing='md'>
 				<Stack spacing='xs' p='xs'>
-					<Select label='Associated with' data={user.policiesTaken.map(p => ({ value: p._id || '', label: p.policy?.title }))} {...form.getInputProps('policyId')}/>
+					<Select label='Associated with' data={user.policiesTaken.filter(p => p.status === 'APPROVED').map(p => ({ value: p._id || '', label: p.policy?.title }))} {...form.getInputProps('policyId')}/>
 				</Stack>
 				<Divider/>
 				<Stack spacing='xs' p='xs'>
