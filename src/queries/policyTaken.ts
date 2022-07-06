@@ -19,6 +19,7 @@ export const GET_CURRENT_POLICIES_TAKEN = gql`
 					status
 					insuredAmount
 					premium
+					dependants
 				}
 			}
 			... on Client {
@@ -40,6 +41,7 @@ export const GET_CURRENT_POLICIES_TAKEN = gql`
 					status
 					insuredAmount
 					premium
+					dependants
 				}
 			}
 			... on Broker {
@@ -60,6 +62,7 @@ export const GET_CURRENT_POLICIES_TAKEN = gql`
 					status
 					insuredAmount
 					premium
+					dependants
 				}
 			}
 		}
@@ -87,6 +90,15 @@ export const POLICY_TAKEN_NEXT_STEP = gql`
 export const POLICY_TAKEN_CANCEL = gql`
 	mutation PolicyTakenCancel($_id: ID!, $status: Status!) {
 		policyTakenCancel(_id: $_id, status: $status) {
+			response
+			error
+		}
+	}
+`
+
+export const UPDATE_PT_DEPENDANTS = gql`
+	mutation UpdatePTDependants($_id: ID!, $dependants: [String!]!) {
+		updatePTDependants(_id: $_id, dependants: $dependants) {
 			response
 			error
 		}

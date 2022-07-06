@@ -9,4 +9,5 @@ export interface User {
 	policies: Policy[]
 	policiesTaken: PolicyTaken[]
 	claims?: Claim[]
+	dependants?: string[]
 }

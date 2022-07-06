@@ -1,7 +1,8 @@
-import { useMutation } from "@apollo/client"
-import { Avatar, Badge, Button, Group, Modal, Stack, Text, Title } from "@mantine/core"
-import { useContext } from "react"
-import { POLICY_TAKEN_CANCEL, POLICY_TAKEN_NEXT_STEP } from "../../queries/policyTaken"
+import { useLazyQuery, useMutation } from "@apollo/client"
+import { Avatar, Badge, Button, Group, List, Modal, MultiSelect, Stack, Text, Title } from "@mantine/core"
+import { useContext, useEffect, useState } from "react"
+import { READ_DEPENDANTS } from "../../queries/dependants"
+import { POLICY_TAKEN_CANCEL, POLICY_TAKEN_NEXT_STEP, UPDATE_PT_DEPENDANTS } from "../../queries/policyTaken"
 import { UserContext } from "../../services/userContextProvider"
 import { Callbacks } from "../../types/callbacks"
 import { PolicyTaken } from "../../types/policy"
@@ -14,7 +15,7 @@ interface PolicyTakenModalProps {
 }
 
 function PolicyTakenModal(props: PolicyTakenModalProps) {
-	const { user } = useContext(UserContext)
+	const { user, setUser } = useContext(UserContext)
 	const [policyNext] = useMutation(POLICY_TAKEN_NEXT_STEP, {
 		variables: { _id: props.policyTaken?._id, status: props.policyTaken?.status},
 		onCompleted: ({ policyTakenNext }) => {
@@ -34,6 +35,28 @@ function PolicyTakenModal(props: PolicyTakenModalProps) {
 				props.close()
 			} else {
 				console.log(policyTakenCancel.error)
+			}
+		}
+	})
+	const [getDependants] = useLazyQuery(READ_DEPENDANTS, {
+		onCompleted: ({ currentUser }) => {
+			setUser({...user, ...currentUser})
+		}
+	})
+	useEffect(() => {
+		if (user?.__typename === 'Client' && !user.dependants) {
+			getDependants()
+		}
+	}, [user])
+	const [deps, setDeps] = useState<string[]>([])
+	const [updatePTDependants] = useMutation(UPDATE_PT_DEPENDANTS, {
+		variables: {
+			_id: props.policyTaken?._id,
+			dependants: deps
+		},
+		onCompleted: ({ updatePTDependants }) => {
+			if (updatePTDependants.response) {
+				policyNext()
 			}
 		}
 	})
@@ -71,11 +94,31 @@ function PolicyTakenModal(props: PolicyTakenModalProps) {
 					</Group>
 				</Stack>
 				{
+					user?.__typename === 'Client' && props.policyTaken?.status === 'QUOTED' && (
+						<Stack spacing='xs'>
+							<Title order={4}>Add Dependants</Title>
+							<MultiSelect value={deps} onChange={setDeps} data={user.dependants || []}/>
+						</Stack>
+					)
+				}
+				{
+					props.policyTaken?.status !== 'QUOTED' && props.policyTaken && props.policyTaken.dependants && props.policyTaken.dependants.length > 0 && (
+						<Stack spacing='xs'>
+							<Title order={4}>Dependants</Title>
+							<List>
+								{props.policyTaken.dependants.map(d => (
+									<List.Item>{d}</List.Item>
+								))}
+							</List>
+						</Stack>
+					)
+				}
+				{
 					(((user?.__typename === 'Client' && props.policyTaken?.status === 'QUOTED')) || ((user?.__typename === 'Broker' && props.policyTaken?.status === 'APPLIED'))) && (
 						<>
 							<Stack spacing='xs' py='sm'>
 								<Group position="apart">
-									<Button onClick={() => policyNext()}>Sign and {user.__typename === 'Broker'? 'Approve' : 'Apply'}</Button>
+									<Button onClick={() => user.__typename === 'Client' ? updatePTDependants() : policyNext()}>Sign and {user.__typename === 'Broker'? 'Approve' : 'Apply'}</Button>
 									<Button color='red' onClick={() => policyCancel()}>Reject</Button>
 								</Group>
 								<Text size='xs' color='dimmed'>By clicking Sign and {user.__typename === 'Broker'? 'Approve' : 'Apply'}, ...</Text>
