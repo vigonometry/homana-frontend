@@ -6,7 +6,7 @@ import { UserContext } from "../../services/userContextProvider"
 import { Callbacks } from "../../types/callbacks"
 import { PolicyTaken } from "../../types/policy"
 import ptBadgeColor from "../../utils/ptBadgeColor"
-
+import { signDocumentClient, approveDocumentBC, rejectDocumentBC } from "../../utils/contractUtils"
 interface PolicyTakenModalProps {
 	policyTaken: PolicyTaken | null
 	close: () => void
@@ -26,6 +26,12 @@ function PolicyTakenModal(props: PolicyTakenModalProps) {
 			}
 		}
 	})
+
+	const handlePolicyNext = (id: any) => {
+		policyNext();
+		user?.__typename === 'Broker' ? approveDocumentBC(id) : signDocumentClient(id);
+	}
+
 	const [policyCancel] = useMutation(POLICY_TAKEN_CANCEL, {
 		variables: { _id: props.policyTaken?._id, status: props.policyTaken?.status},
 		onCompleted: ({ policyTakenCancel }) => {
@@ -37,6 +43,12 @@ function PolicyTakenModal(props: PolicyTakenModalProps) {
 			}
 		}
 	})
+
+	const handlePolicyCancel = (id: any) => {
+		policyCancel();
+		rejectDocumentBC(id);
+	}
+
 	return (
 		<Modal opened={!!props.policyTaken} onClose={props.close} title={props.policyTaken?.policy?.title} styles={{title: { fontWeight: 'bold', fontSize: 22, }, header: { marginBottom: 4}}}>
 			<Badge size="md" color={ptBadgeColor(props.policyTaken?.status || '')}>{props.policyTaken?.status}</Badge>
@@ -75,8 +87,8 @@ function PolicyTakenModal(props: PolicyTakenModalProps) {
 						<>
 							<Stack spacing='xs' py='sm'>
 								<Group position="apart">
-									<Button onClick={() => policyNext()}>Sign and {user.__typename === 'Broker'? 'Approve' : 'Apply'}</Button>
-									<Button color='red' onClick={() => policyCancel()}>Reject</Button>
+									<Button onClick={() => handlePolicyNext(0)}>Sign and {user.__typename === 'Broker'? 'Approve' : 'Apply'}</Button>
+									<Button color='red' onClick={() => handlePolicyCancel(0)}>Reject</Button>
 								</Group>
 								<Text size='xs' color='dimmed'>By clicking Sign and {user.__typename === 'Broker'? 'Approve' : 'Apply'}, ...</Text>
 							</Stack>

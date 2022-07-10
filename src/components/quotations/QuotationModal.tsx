@@ -7,6 +7,7 @@ import { CREATE_POLICY_TAKEN } from "../../queries/policyTaken";
 import { UserContext } from "../../services/userContextProvider";
 import { Callbacks } from "../../types/callbacks";
 import { Policy, PolicyTaken } from "../../types/policy";
+import { createDocumentBC, getSignerAddress } from "../../utils/contractUtils"
 
 interface QuotationModalProps {
 	quotation: PolicyTaken | null
@@ -19,6 +20,10 @@ function QuotationModal(props: QuotationModalProps) {
 	const { user } = useContext(UserContext)
 	const [policies, setPolicies] = useState<Policy[]>([])
 	const { data } = useQuery(READ_POLICIES)
+
+	const [agent, setAgent] = useState('')
+
+
 	useEffect(() => {
 		if (data && data.readPolicies) {	
 			setPolicies(data.readPolicies)
@@ -39,7 +44,7 @@ function QuotationModal(props: QuotationModalProps) {
 		variables: {
 			policyId: props.form.values.policyId,
 			clientEmail: props.form.values.clientId,
-			agentId: user?._id || null,
+			agentId: agent || null,
 			insuredAmount: props.form.values.insuredAmount,
 			premium: props.form.values.premium
 		},
@@ -50,6 +55,12 @@ function QuotationModal(props: QuotationModalProps) {
 			}
 		}
 	})
+
+	const handleCreate = () => {
+		getSignerAddress().then(res => setAgent(res))
+		createQuotation();
+		createDocumentBC();
+	}
 	
 	return (
 		<Modal padding='xl' opened={!!props.quotation} onClose={props.close} title='New Quotation'>
@@ -60,7 +71,7 @@ function QuotationModal(props: QuotationModalProps) {
 				<NumberInput label='Premium' {...props.form.getInputProps('premium')} description={`The recommended premium for this policy is ${props.form.values.premium} S$`}/>
 				<Space/>
 				<Group>
-					<Button onClick={() => createQuotation()}>Sign and Send</Button>
+					<Button onClick={handleCreate}>Sign and Send</Button>
 					<Text size='xs' color='dimmed'>By clicking Sign and Send, ...</Text>
 				</Group>
 			</Stack>
