@@ -6,7 +6,6 @@ import POLICY_TYPES from "../../constants/policyTypes"
 import { CREATE_POLICY, DELETE_POLICY, UPDATE_POLICY } from "../../queries/policy"
 import { Callbacks } from "../../types/callbacks"
 import { Policy } from "../../types/policy"
-import { createDocumentBC } from "../../utils/contractUtils"
 
 interface PolicyModalProps {
 	policy: Policy | null
@@ -49,7 +48,6 @@ function PolicyModal(props: PolicyModalProps) {
 
 	const handleCreate = () => {
 		create();
-		createDocumentBC();
 	}
 
 	return (

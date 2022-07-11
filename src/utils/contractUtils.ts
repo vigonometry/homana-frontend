@@ -1,7 +1,10 @@
 import { ethers } from "ethers";
 import { DAPP_ABI, DAPP_ADDRESS } from "./contractConfig";
 
-const web3 = new ethers.providers.JsonRpcProvider();
+declare const window: any;
+
+const web3 = new ethers.providers.Web3Provider(window.ethereum);
+web3.send("eth_requestAccounts", [])
 const signer = web3.getSigner();
 const MyContract = new ethers.Contract(DAPP_ADDRESS, DAPP_ABI, signer);
 

@@ -1,12 +1,12 @@
 import { useMutation } from "@apollo/client"
 import { Avatar, Badge, Button, Group, Modal, Stack, Text, Title } from "@mantine/core"
-import { useContext } from "react"
-import { POLICY_TAKEN_CANCEL, POLICY_TAKEN_NEXT_STEP } from "../../queries/policyTaken"
+import { useContext, useState } from "react"
+import { POLICY_TAKEN_CANCEL, POLICY_TAKEN_NEXT_STEP, UPDATE_CLIENT_ID } from "../../queries/policyTaken"
 import { UserContext } from "../../services/userContextProvider"
 import { Callbacks } from "../../types/callbacks"
 import { PolicyTaken } from "../../types/policy"
 import ptBadgeColor from "../../utils/ptBadgeColor"
-import { signDocumentClient, approveDocumentBC, rejectDocumentBC } from "../../utils/contractUtils"
+import { signDocumentClient, approveDocumentBC, rejectDocumentBC, getSignerAddress } from "../../utils/contractUtils"
 interface PolicyTakenModalProps {
 	policyTaken: PolicyTaken | null
 	close: () => void
@@ -15,6 +15,8 @@ interface PolicyTakenModalProps {
 
 function PolicyTakenModal(props: PolicyTakenModalProps) {
 	const { user } = useContext(UserContext)
+	const [client, setClient] = useState('')
+
 	const [policyNext] = useMutation(POLICY_TAKEN_NEXT_STEP, {
 		variables: { _id: props.policyTaken?._id, status: props.policyTaken?.status},
 		onCompleted: ({ policyTakenNext }) => {
@@ -27,9 +29,27 @@ function PolicyTakenModal(props: PolicyTakenModalProps) {
 		}
 	})
 
+	const [updateClient] = useMutation(UPDATE_CLIENT_ID, {
+		variables: {_id: props.policyTaken?._id, clientId: client || null},
+		onCompleted: ({ policyTakenNext }) => {
+			if (policyTakenNext.response && props.policyTaken) {
+				props.callbacks.update({clientId: client, ...props.policyTaken, status: policyTakenNext.response})
+				props.close()
+			} else {
+				console.log(policyTakenNext.error)
+			}
+		}
+	})
+
 	const handlePolicyNext = (id: any) => {
 		policyNext();
-		user?.__typename === 'Broker' ? approveDocumentBC(id) : signDocumentClient(id);
+		if (user?.__typename === 'Broker') { 
+			approveDocumentBC(id)
+		} else {
+			getSignerAddress().then(res => setClient(res));
+			updateClient();
+			signDocumentClient(id);
+		}
 	}
 
 	const [policyCancel] = useMutation(POLICY_TAKEN_CANCEL, {
