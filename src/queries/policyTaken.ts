@@ -92,12 +92,3 @@ export const POLICY_TAKEN_CANCEL = gql`
 		}
 	}
 `
-
-export const UPDATE_CLIENT_ID = gql`
-	mutation UpdateClientId($_id: ID!, $clientId: ID!) {
-		updateClientId(_id: $_id, clientId: $clientId) {
-			response
-			error
-		}
-	}
-`

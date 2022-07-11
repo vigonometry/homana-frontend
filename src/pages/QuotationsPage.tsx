@@ -16,7 +16,8 @@ function QuotationsPage() {
 	useEffect(() => {
 		if (user && !user.policiesTaken) getCurrentQuotations()
 	}, [user, getCurrentQuotations])
-	
+
+	console.log(user?.policiesTaken)
 	return (
 		<Box p='xl'>
 			<Stack>

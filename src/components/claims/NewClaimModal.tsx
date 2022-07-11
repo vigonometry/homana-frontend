@@ -53,6 +53,7 @@ export default function NewClaimModal(props: NewClaimModalProps) {
           _id: createClaim.response,
         });
         props.close();
+        createClaimBC(createClaim.response);
       }
     },
   });
@@ -65,10 +66,11 @@ export default function NewClaimModal(props: NewClaimModalProps) {
           : "",
     });
   }, [user]);
+
   const handleCreate = () => {
     createClaim();
-	createClaimBC();
   };
+
   if (!user || !user.policiesTaken) return <></>;
   return (
     <Modal
@@ -146,7 +148,7 @@ export default function NewClaimModal(props: NewClaimModalProps) {
           </Stack>
         </Stack>
         <Group>
-          <Button onClick={() => handleCreate()}>Sign and Submit</Button>
+          <Button onClick={handleCreate}>Sign and Submit</Button>
         </Group>
       </Stack>
     </Modal>

@@ -3,15 +3,11 @@
 pragma solidity ^0.8.7;
 
 contract DocumentSigner {
-    address[] private admins = [0xA9bd3AF1e346b915a5D052070301Dcf5b3D3465A];
+    address[] private admins = [0x7BfA0Bc3a7863d99130904E5E4E2eBE6869D08A4];
 
-    mapping(uint256 => Document) private documents; //convert to string mapping with oid
-    mapping(uint256 => Claim) private claims;
+    mapping(string => Document) private documents; //convert to string mapping with oid
+    mapping(string => Claim) private claims;
 
-    uint256[] private documentId; //convert to string mapping with oid
-    uint256[] private cId; //convert to string mapping with oid
-    uint256 private docuId = 0; //remove
-    uint256 private claimId = 0; //remove
 
     enum Status {
         QUOTED,
@@ -41,7 +37,7 @@ contract DocumentSigner {
         ClaimStatus cStatus;
     }
 
-    function signDocumentClient(uint256 _docuId) public {
+    function signDocumentClient(string memory _docuId) public {
         documents[_docuId].client = msg.sender;
         documents[_docuId].status = Status.APPLIED;
     }
@@ -59,44 +55,45 @@ contract DocumentSigner {
         _;
     }
 
-    function rejectDocument(uint256 _docuId) public onlyAdmins {
+    function rejectDocument(string memory _docuId) public onlyAdmins {
         documents[_docuId].broker = msg.sender;
         documents[_docuId].status = Status.REJECTED;
     }
 
-    function approveDocument(uint256 _docuId) public onlyAdmins {
+    function rejectDocumentClient(string memory _docuId) public {
+        documents[_docuId].client = msg.sender;
+        documents[_docuId].status = Status.REJECTED;
+    }
+
+    function approveDocument(string memory _docuId) public onlyAdmins {
         documents[_docuId].broker = msg.sender;
         documents[_docuId].status = Status.APPROVED;
     }
 
-    function createDocument() public {
-        documents[docuId] = Document(
+    function createDocument(string memory _docuId) public {
+        documents[_docuId] = Document(
             msg.sender,
             address(0),
             address(0),
             Status.QUOTED
         );
-        documentId.push(docuId);
-        docuId++;
     }
 
-    function createClaim() public {
-        claims[claimId] = Claim(msg.sender, address(0), ClaimStatus.APPLIED);
-        cId.push(claimId);
-        claimId++;
+    function createClaim(string memory _claimId) public {
+        claims[_claimId] = Claim(msg.sender, address(0), ClaimStatus.APPLIED);
     }
 
-    function rejectClaim(uint256 _claimId) public onlyAdmins {
+    function rejectClaim(string memory _claimId) public onlyAdmins {
         claims[_claimId].broker = msg.sender;
         claims[_claimId].cStatus = ClaimStatus.REJECTED;
     }
 
-    function approveClaim(uint256 _claimId) public onlyAdmins {
+    function approveClaim(string memory _claimId) public onlyAdmins {
         claims[_claimId].broker = msg.sender;
         claims[_claimId].cStatus = ClaimStatus.APPROVED;
     }
 
-    function getSignatoriesDocument(uint256 _docuId)
+    function getSignatoriesDocument(string memory _docuId)
         public
         view
         returns (address[3] memory)
@@ -108,7 +105,7 @@ contract DocumentSigner {
         ];
     }
 
-    function getStatusDocument(uint256 _docuId)
+    function getStatusDocument(string memory _docuId)
         public
         view
         returns (string memory)
@@ -124,7 +121,7 @@ contract DocumentSigner {
         return statuses[statusIdx];
     }
 
-    function getSignatoriesClaim(uint256 _claimId)
+    function getSignatoriesClaim(string memory _claimId)
         public
         view
         returns (address[2] memory)
@@ -132,7 +129,7 @@ contract DocumentSigner {
         return [claims[_claimId].client, claims[_claimId].broker];
     }
 
-    function getStatusClaim(uint256 _claimId)
+    function getStatusClaim(string memory _claimId)
         public
         view
         returns (string memory)

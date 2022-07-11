@@ -1,12 +1,12 @@
 import { useMutation } from "@apollo/client"
 import { Avatar, Badge, Button, Group, Modal, Stack, Text, Title } from "@mantine/core"
 import { useContext, useState } from "react"
-import { POLICY_TAKEN_CANCEL, POLICY_TAKEN_NEXT_STEP, UPDATE_CLIENT_ID } from "../../queries/policyTaken"
+import { POLICY_TAKEN_CANCEL, POLICY_TAKEN_NEXT_STEP } from "../../queries/policyTaken"
 import { UserContext } from "../../services/userContextProvider"
 import { Callbacks } from "../../types/callbacks"
 import { PolicyTaken } from "../../types/policy"
 import ptBadgeColor from "../../utils/ptBadgeColor"
-import { signDocumentClient, approveDocumentBC, rejectDocumentBC, getSignerAddress } from "../../utils/contractUtils"
+import { signDocumentClient, approveDocumentBC, rejectDocumentBC, getSignerAddress, rejectDocumentClient } from "../../utils/contractUtils"
 interface PolicyTakenModalProps {
 	policyTaken: PolicyTaken | null
 	close: () => void
@@ -23,33 +23,17 @@ function PolicyTakenModal(props: PolicyTakenModalProps) {
 			if (policyTakenNext.response && props.policyTaken) {
 				props.callbacks.update({...props.policyTaken, status: policyTakenNext.response})
 				props.close()
+				user?.__typename === 'Broker' ? approveDocumentBC(policyTakenNext.response) : signDocumentClient(policyTakenNext.response)
 			} else {
 				console.log(policyTakenNext.error)
 			}
 		}
 	})
 
-	const [updateClient] = useMutation(UPDATE_CLIENT_ID, {
-		variables: {_id: props.policyTaken?._id, clientId: client || null},
-		onCompleted: ({ policyTakenNext }) => {
-			if (policyTakenNext.response && props.policyTaken) {
-				props.callbacks.update({clientId: client, ...props.policyTaken, status: policyTakenNext.response})
-				props.close()
-			} else {
-				console.log(policyTakenNext.error)
-			}
-		}
-	})
 
-	const handlePolicyNext = (id: any) => {
+	const handlePolicyNext = () => {
+		getSignerAddress().then(res => setClient(res));
 		policyNext();
-		if (user?.__typename === 'Broker') { 
-			approveDocumentBC(id)
-		} else {
-			getSignerAddress().then(res => setClient(res));
-			updateClient();
-			signDocumentClient(id);
-		}
 	}
 
 	const [policyCancel] = useMutation(POLICY_TAKEN_CANCEL, {
@@ -58,15 +42,16 @@ function PolicyTakenModal(props: PolicyTakenModalProps) {
 			if (policyTakenCancel.response && props.policyTaken) {
 				props.callbacks.update({...props.policyTaken, status: policyTakenCancel.response})
 				props.close()
+				user?.__typename === 'Broker' ?  rejectDocumentBC(policyTakenCancel.response) : rejectDocumentClient(policyTakenCancel.response)
 			} else {
 				console.log(policyTakenCancel.error)
 			}
 		}
 	})
 
-	const handlePolicyCancel = (id: any) => {
+	const handlePolicyCancel = () => {
+		getSignerAddress().then(res => setClient(res));
 		policyCancel();
-		rejectDocumentBC(id);
 	}
 
 	return (
@@ -107,8 +92,8 @@ function PolicyTakenModal(props: PolicyTakenModalProps) {
 						<>
 							<Stack spacing='xs' py='sm'>
 								<Group position="apart">
-									<Button onClick={() => handlePolicyNext(0)}>Sign and {user.__typename === 'Broker'? 'Approve' : 'Apply'}</Button>
-									<Button color='red' onClick={() => handlePolicyCancel(0)}>Reject</Button>
+									<Button onClick={handlePolicyNext}>Sign and {user.__typename === 'Broker'? 'Approve' : 'Apply'}</Button>
+									<Button color='red' onClick={handlePolicyCancel}>Reject</Button>
 								</Group>
 								<Text size='xs' color='dimmed'>By clicking Sign and {user.__typename === 'Broker'? 'Approve' : 'Apply'}, ...</Text>
 							</Stack>

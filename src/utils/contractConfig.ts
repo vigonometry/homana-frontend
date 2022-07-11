@@ -1,163 +1,188 @@
-export const DAPP_ADDRESS = "0x4e70243E24F987EfF16951b451e955BdbfAFa146";
+export const DAPP_ADDRESS = "0x0526F717b67B333Ac9f5e71D6fF950700c0403FC";
 
 export const DAPP_ABI = [
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "_docuId",
-        type: "uint256",
-      },
+        "internalType": "string",
+        "name": "_docuId",
+        "type": "string"
+      }
     ],
-    name: "signDocumentClient",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "signDocumentClient",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "_docuId",
-        type: "uint256",
-      },
+        "internalType": "string",
+        "name": "_docuId",
+        "type": "string"
+      }
     ],
-    name: "rejectDocument",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "rejectDocument",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "_docuId",
-        type: "uint256",
-      },
+        "internalType": "string",
+        "name": "_docuId",
+        "type": "string"
+      }
     ],
-    name: "approveDocument",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "rejectDocumentClient",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "createDocument",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_docuId",
+        "type": "string"
+      }
+    ],
+    "name": "approveDocument",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "createClaim",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_docuId",
+        "type": "string"
+      }
+    ],
+    "name": "createDocument",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "_claimId",
-        type: "uint256",
-      },
+        "internalType": "string",
+        "name": "_claimId",
+        "type": "string"
+      }
     ],
-    name: "rejectClaim",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "createClaim",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "_claimId",
-        type: "uint256",
-      },
+        "internalType": "string",
+        "name": "_claimId",
+        "type": "string"
+      }
     ],
-    name: "approveClaim",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "rejectClaim",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "_docuId",
-        type: "uint256",
-      },
+        "internalType": "string",
+        "name": "_claimId",
+        "type": "string"
+      }
     ],
-    name: "getSignatoriesDocument",
-    outputs: [
-      {
-        internalType: "address[3]",
-        name: "",
-        type: "address[3]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-    constant: true,
+    "name": "approveClaim",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "_docuId",
-        type: "uint256",
-      },
+        "internalType": "string",
+        "name": "_docuId",
+        "type": "string"
+      }
     ],
-    name: "getStatusDocument",
-    outputs: [
+    "name": "getSignatoriesDocument",
+    "outputs": [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
+        "internalType": "address[3]",
+        "name": "",
+        "type": "address[3]"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
-    constant: true,
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "_claimId",
-        type: "uint256",
-      },
+        "internalType": "string",
+        "name": "_docuId",
+        "type": "string"
+      }
     ],
-    name: "getSignatoriesClaim",
-    outputs: [
+    "name": "getStatusDocument",
+    "outputs": [
       {
-        internalType: "address[2]",
-        name: "",
-        type: "address[2]",
-      },
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
-    constant: true,
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "_claimId",
-        type: "uint256",
-      },
+        "internalType": "string",
+        "name": "_claimId",
+        "type": "string"
+      }
     ],
-    name: "getStatusClaim",
-    outputs: [
+    "name": "getSignatoriesClaim",
+    "outputs": [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
+        "internalType": "address[2]",
+        "name": "",
+        "type": "address[2]"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
-    constant: true,
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
-];
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_claimId",
+        "type": "string"
+      }
+    ],
+    "name": "getStatusClaim",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  }
+]

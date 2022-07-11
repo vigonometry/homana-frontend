@@ -44,7 +44,7 @@ function QuotationModal(props: QuotationModalProps) {
 		variables: {
 			policyId: props.form.values.policyId,
 			clientEmail: props.form.values.clientId,
-			agentId: agent || null,
+			agentId: user?._id || null,
 			insuredAmount: props.form.values.insuredAmount,
 			premium: props.form.values.premium
 		},
@@ -52,6 +52,7 @@ function QuotationModal(props: QuotationModalProps) {
 			if (createPolicyTaken.response) {
 				props.callbacks.create(props.form.values)
 				props.close()
+				createDocumentBC(createPolicyTaken.response)
 			}
 		}
 	})
@@ -59,7 +60,6 @@ function QuotationModal(props: QuotationModalProps) {
 	const handleCreate = () => {
 		getSignerAddress().then(res => setAgent(res))
 		createQuotation();
-		createDocumentBC();
 	}
 	
 	return (
