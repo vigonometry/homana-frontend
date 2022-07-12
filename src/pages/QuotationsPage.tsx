@@ -16,12 +16,11 @@ function QuotationsPage() {
 	useEffect(() => {
 		if (user && !user.policiesTaken) getCurrentQuotations()
 	}, [user, getCurrentQuotations])
-	
 	return (
 		<Box p='xl'>
 			<Stack>
 				<Title order={2}>Quotations</Title>
-				<QuotationsTable refresh={() => getCurrentQuotations()} quotations={user?.policiesTaken || []}/>
+				<QuotationsTable withControls refresh={() => getCurrentQuotations()} quotations={user?.policiesTaken || []}/>
 			</Stack>
 		</Box>
 	)
