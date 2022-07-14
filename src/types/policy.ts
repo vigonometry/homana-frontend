@@ -22,4 +22,5 @@ export interface PolicyTaken {
 	policy?: Policy
 	client?: User
 	agent?: User
+	dependants?: string[]
 }

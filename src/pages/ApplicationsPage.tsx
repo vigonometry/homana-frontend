@@ -24,7 +24,7 @@ function ApplicationsPage() {
 				<Group position="apart">
 					<Title order={2}>Applications</Title>
 				</Group>
-				<PoliciesTakenGrid policiesTaken={user.policiesTaken || []}/>
+				<PoliciesTakenGrid withControls policiesTaken={user.policiesTaken || []}/>
 			</Stack>
 		</Box>
 	)

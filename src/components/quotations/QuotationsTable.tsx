@@ -11,6 +11,7 @@ import QuotationModal from "./QuotationModal"
 interface QuotationsTableProps {
 	quotations: PolicyTaken[]
 	refresh: () => void
+	withControls?: boolean
 }
 
 const newQuotation: PolicyTaken = {
@@ -43,10 +44,10 @@ function QuotationsTable(props: QuotationsTableProps) {
 	return (
 		<>
 			<QuotationModal callbacks={callbacks} form={form} quotation={current} close={close}/>
-			<Group>
+			{ props.withControls && <Group>
 				<TextInput placeholder="Search"/>
 				<Button onClick={() => setCurrent(newQuotation)}>New Quotation</Button>
-			</Group>
+			</Group>}
 			<Table verticalSpacing='xs' fontSize='md'>
 				<thead>
 					<tr>

@@ -12,7 +12,7 @@ function ClaimsPage() {
 	return (
 		<PageContainer>
 			<Title order={2}>Claims</Title>
-			<ClaimsTable/>
+			<ClaimsTable withControls/>
 		</PageContainer>
 	)
 }

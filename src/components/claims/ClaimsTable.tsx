@@ -12,6 +12,8 @@ import ClaimModal from "./ClaimModal";
 import NewClaimModal from "./NewClaimModal";
 
 interface ClaimsTableProps {
+	limit?: number
+	withControls?: boolean
 }
 
 export default function ClaimsTable(props: ClaimsTableProps) {
@@ -46,12 +48,14 @@ export default function ClaimsTable(props: ClaimsTableProps) {
 	}
 	return (
 		<>
-		<NewClaimModal callbacks={callbacks} isOpened={newIsOpened} close={close}/>
+		{props.withControls && <NewClaimModal callbacks={callbacks} isOpened={newIsOpened} close={close}/>}
 		<ClaimModal callbacks={callbacks} claim={selected} close={close}/>
-		<Group>
-			<TextInput placeholder="Search"/>
-			{ user?.__typename === 'Client' && <Button onClick={newClicked}>New Claim</Button>}
-		</Group>
+		{ props.withControls &&
+			<Group>
+				<TextInput placeholder="Search"/>
+				{ user?.__typename === 'Client' && <Button onClick={newClicked}>New Claim</Button>}
+			</Group>
+		}
 		<Table verticalSpacing='sm'>
 			<thead>
 				<tr>
@@ -64,7 +68,7 @@ export default function ClaimsTable(props: ClaimsTableProps) {
 			</thead>
 			<tbody>
 				{
-					user.claims.map(c => (
+					user.claims.filter((_, i) => !props.limit || i < props.limit).map(c => (
 						<tr className="fade-on-hover" onClick={() => setSelected(c)}>
 							<td>{ moment(c.claimDate).format("DD/MM/YYYY, hh:mm A") }</td>
 							<td>{ c._id }</td>

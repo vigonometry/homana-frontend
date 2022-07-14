@@ -26,7 +26,7 @@ function PoliciesPage(props: PoliciesPageProps) {
 				<Group position="apart">
 					<Title order={2}>Your Policies</Title>
 				</Group>
-				{ user.__typename === 'Client' && <PoliciesTakenGrid policiesTaken={user.policiesTaken || []}/>}
+				{ user.__typename === 'Client' && <PoliciesTakenGrid withControls policiesTaken={user.policiesTaken || []}/>}
 				{ user.__typename === 'Broker' && <PoliciesGrid policies={user.policies}/> }
 			</Stack>
 		</Box>

@@ -1,7 +1,9 @@
 import { useMutation } from "@apollo/client"
 import { Avatar, Badge, Button, Group, Modal, Stack, Text, Title } from "@mantine/core"
 import { useContext, useState } from "react"
-import { POLICY_TAKEN_CANCEL, POLICY_TAKEN_NEXT_STEP } from "../../queries/policyTaken"
+import { useLazyQuery, useMutation } from "@apollo/client"
+import { READ_DEPENDANTS } from "../../queries/dependants"
+import { POLICY_TAKEN_CANCEL, POLICY_TAKEN_NEXT_STEP, UPDATE_PT_DEPENDANTS } from "../../queries/policyTaken"
 import { UserContext } from "../../services/userContextProvider"
 import { Callbacks } from "../../types/callbacks"
 import { PolicyTaken } from "../../types/policy"
@@ -14,9 +16,8 @@ interface PolicyTakenModalProps {
 }
 
 function PolicyTakenModal(props: PolicyTakenModalProps) {
-	const { user } = useContext(UserContext)
 	const [client, setClient] = useState('')
-
+	const { user, setUser } = useContext(UserContext)
 	const [policyNext] = useMutation(POLICY_TAKEN_NEXT_STEP, {
 		variables: { _id: props.policyTaken?._id, status: props.policyTaken?.status},
 		onCompleted: ({ policyTakenNext }) => {
@@ -53,7 +54,29 @@ function PolicyTakenModal(props: PolicyTakenModalProps) {
 		getSignerAddress().then(res => setClient(res));
 		policyCancel();
 	}
-
+  
+	const [getDependants] = useLazyQuery(READ_DEPENDANTS, {
+		onCompleted: ({ currentUser }) => {
+			setUser({...user, ...currentUser})
+		}
+	})
+	useEffect(() => {
+		if (user?.__typename === 'Client' && !user.dependants) {
+			getDependants()
+		}
+	}, [user])
+	const [deps, setDeps] = useState<string[]>([])
+	const [updatePTDependants] = useMutation(UPDATE_PT_DEPENDANTS, {
+		variables: {
+			_id: props.policyTaken?._id,
+			dependants: deps
+		},
+		onCompleted: ({ updatePTDependants }) => {
+			if (updatePTDependants.response) {
+				policyNext()
+			}
+		}
+	})
 	return (
 		<Modal opened={!!props.policyTaken} onClose={props.close} title={props.policyTaken?.policy?.title} styles={{title: { fontWeight: 'bold', fontSize: 22, }, header: { marginBottom: 4}}}>
 			<Badge size="md" color={ptBadgeColor(props.policyTaken?.status || '')}>{props.policyTaken?.status}</Badge>
@@ -87,6 +110,26 @@ function PolicyTakenModal(props: PolicyTakenModalProps) {
 						</Stack>
 					</Group>
 				</Stack>
+				{
+					user?.__typename === 'Client' && props.policyTaken?.status === 'QUOTED' && (
+						<Stack spacing='xs'>
+							<Title order={4}>Add Dependants</Title>
+							<MultiSelect value={deps} onChange={setDeps} data={user.dependants || []}/>
+						</Stack>
+					)
+				}
+				{
+					props.policyTaken?.status !== 'QUOTED' && props.policyTaken && props.policyTaken.dependants && props.policyTaken.dependants.length > 0 && (
+						<Stack spacing='xs'>
+							<Title order={4}>Dependants</Title>
+							<List>
+								{props.policyTaken.dependants.map(d => (
+									<List.Item>{d}</List.Item>
+								))}
+							</List>
+						</Stack>
+					)
+				}
 				{
 					(((user?.__typename === 'Client' && props.policyTaken?.status === 'QUOTED')) || ((user?.__typename === 'Broker' && props.policyTaken?.status === 'APPLIED'))) && (
 						<>
