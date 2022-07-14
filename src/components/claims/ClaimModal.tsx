@@ -8,6 +8,7 @@ import { CLAIM_CANCEL, CLAIM_NEXT_STEP } from "../../queries/claims"
 import { UserContext } from "../../services/userContextProvider"
 import { Callbacks } from "../../types/callbacks"
 import { Claim } from "../../types/claim"
+import { approveClaimBC, rejectClaimBC } from "../../utils/contractUtils"
 import ptBadgeColor from "../../utils/ptBadgeColor"
 
 interface ClaimModalProps {
@@ -24,6 +25,7 @@ export default function ClaimModal(props: ClaimModalProps) {
 			if (claimNext.response && props.claim) {
 				props.callbacks.update({...props.claim, status: claimNext.response})
 				props.close()
+				approveClaimBC(claimNext.response)
 			} else {
 				console.log(claimNext.error)
 			}
@@ -35,6 +37,7 @@ export default function ClaimModal(props: ClaimModalProps) {
 			if (claimCancel.response && props.claim) {
 				props.callbacks.update({...props.claim, status: claimCancel.response})
 				props.close()
+				rejectClaimBC(claimCancel.response)
 			} else {
 				console.log(claimCancel.error)
 			}

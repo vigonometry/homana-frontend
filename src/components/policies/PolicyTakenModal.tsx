@@ -1,13 +1,14 @@
+import { useMutation } from "@apollo/client"
+import { Avatar, Badge, Button, Group, Modal, Stack, Text, Title } from "@mantine/core"
+import { useContext, useState } from "react"
 import { useLazyQuery, useMutation } from "@apollo/client"
-import { Avatar, Badge, Button, Group, List, Modal, MultiSelect, Stack, Text, Title } from "@mantine/core"
-import { useContext, useEffect, useState } from "react"
 import { READ_DEPENDANTS } from "../../queries/dependants"
 import { POLICY_TAKEN_CANCEL, POLICY_TAKEN_NEXT_STEP, UPDATE_PT_DEPENDANTS } from "../../queries/policyTaken"
 import { UserContext } from "../../services/userContextProvider"
 import { Callbacks } from "../../types/callbacks"
 import { PolicyTaken } from "../../types/policy"
 import ptBadgeColor from "../../utils/ptBadgeColor"
-
+import { signDocumentClient, approveDocumentBC, rejectDocumentBC, getSignerAddress, rejectDocumentClient } from "../../utils/contractUtils"
 interface PolicyTakenModalProps {
 	policyTaken: PolicyTaken | null
 	close: () => void
@@ -15,6 +16,7 @@ interface PolicyTakenModalProps {
 }
 
 function PolicyTakenModal(props: PolicyTakenModalProps) {
+	const [client, setClient] = useState('')
 	const { user, setUser } = useContext(UserContext)
 	const [policyNext] = useMutation(POLICY_TAKEN_NEXT_STEP, {
 		variables: { _id: props.policyTaken?._id, status: props.policyTaken?.status},
@@ -22,22 +24,37 @@ function PolicyTakenModal(props: PolicyTakenModalProps) {
 			if (policyTakenNext.response && props.policyTaken) {
 				props.callbacks.update({...props.policyTaken, status: policyTakenNext.response})
 				props.close()
+				user?.__typename === 'Broker' ? approveDocumentBC(policyTakenNext.response) : signDocumentClient(policyTakenNext.response)
 			} else {
 				console.log(policyTakenNext.error)
 			}
 		}
 	})
+
+
+	const handlePolicyNext = () => {
+		getSignerAddress().then(res => setClient(res));
+		policyNext();
+	}
+
 	const [policyCancel] = useMutation(POLICY_TAKEN_CANCEL, {
 		variables: { _id: props.policyTaken?._id, status: props.policyTaken?.status},
 		onCompleted: ({ policyTakenCancel }) => {
 			if (policyTakenCancel.response && props.policyTaken) {
 				props.callbacks.update({...props.policyTaken, status: policyTakenCancel.response})
 				props.close()
+				user?.__typename === 'Broker' ?  rejectDocumentBC(policyTakenCancel.response) : rejectDocumentClient(policyTakenCancel.response)
 			} else {
 				console.log(policyTakenCancel.error)
 			}
 		}
 	})
+
+	const handlePolicyCancel = () => {
+		getSignerAddress().then(res => setClient(res));
+		policyCancel();
+	}
+  
 	const [getDependants] = useLazyQuery(READ_DEPENDANTS, {
 		onCompleted: ({ currentUser }) => {
 			setUser({...user, ...currentUser})
@@ -118,8 +135,8 @@ function PolicyTakenModal(props: PolicyTakenModalProps) {
 						<>
 							<Stack spacing='xs' py='sm'>
 								<Group position="apart">
-									<Button onClick={() => user.__typename === 'Client' ? updatePTDependants() : policyNext()}>Sign and {user.__typename === 'Broker'? 'Approve' : 'Apply'}</Button>
-									<Button color='red' onClick={() => policyCancel()}>Reject</Button>
+									<Button onClick={handlePolicyNext}>Sign and {user.__typename === 'Broker'? 'Approve' : 'Apply'}</Button>
+									<Button color='red' onClick={handlePolicyCancel}>Reject</Button>
 								</Group>
 								<Text size='xs' color='dimmed'>By clicking Sign and {user.__typename === 'Broker'? 'Approve' : 'Apply'}, ...</Text>
 							</Stack>

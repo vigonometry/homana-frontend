@@ -46,6 +46,10 @@ function PolicyModal(props: PolicyModalProps) {
 		}
 	})
 
+	const handleCreate = () => {
+		create();
+	}
+
 	return (
 		<Modal opened={props.policy !== null} styles={{ title: { fontWeight: 'bold'}}} onClose={props.close} title={title}>
 			<Stack>
@@ -54,7 +58,7 @@ function PolicyModal(props: PolicyModalProps) {
 				<NumberInput label="Insured Amount - Default" {...props.form.getInputProps('insuredAmount')}/>
 				<NumberInput label="Monthly Premium - Default" {...props.form.getInputProps('premium')}/>
 				<Group mt='lg' position="apart">
-					<Button onClick={() => props.form.values._id ? update() : create()}>{props.form.values._id ? 'Update' : 'Create'}</Button>
+					<Button onClick={() => props.form.values._id ? update() : handleCreate()}>{props.form.values._id ? 'Update' : 'Create'}</Button>
 					{ props.form.values._id &&
 						<ActionIcon onClick={() => delet()} color='red'>
 							<Trash/>
