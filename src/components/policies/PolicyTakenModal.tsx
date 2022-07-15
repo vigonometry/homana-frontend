@@ -1,6 +1,5 @@
-import { useMutation } from "@apollo/client"
-import { Avatar, Badge, Button, Group, Modal, Stack, Text, Title } from "@mantine/core"
-import { useContext, useState } from "react"
+import { Avatar, Badge, Button, Group, Modal, Stack, Text, Title, List, MultiSelect } from "@mantine/core"
+import { useContext, useEffect, useState } from "react"
 import { useLazyQuery, useMutation } from "@apollo/client"
 import { READ_DEPENDANTS } from "../../queries/dependants"
 import { POLICY_TAKEN_CANCEL, POLICY_TAKEN_NEXT_STEP, UPDATE_PT_DEPENDANTS } from "../../queries/policyTaken"
