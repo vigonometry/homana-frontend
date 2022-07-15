@@ -13,7 +13,7 @@ const authLink = setContext((_, { headers }) => {
 })
 
 const httpLink = new HttpLink({
-	uri: "http://localhost:4000/graphql"
+	uri: "https://insurasec-server.herokuapp.com/"
 })
 
 const apolloClient = new ApolloClient({

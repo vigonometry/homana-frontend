@@ -1,4 +1,4 @@
-export const DAPP_ADDRESS = "0x0526F717b67B333Ac9f5e71D6fF950700c0403FC";
+export const DAPP_ADDRESS = "0x62Cd23bc0FE1c4314cAB3Aa549e2d0b792D2c920";
 
 export const DAPP_ABI = [
   {

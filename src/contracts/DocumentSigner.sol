@@ -3,7 +3,7 @@
 pragma solidity ^0.8.7;
 
 contract DocumentSigner {
-    address[] private admins = [0x7BfA0Bc3a7863d99130904E5E4E2eBE6869D08A4];
+    address[] private admins = [0x0A214Dd3490567A36a09F9DD2970ebe723eFC553];
 
     mapping(string => Document) private documents; //convert to string mapping with oid
     mapping(string => Claim) private claims;
